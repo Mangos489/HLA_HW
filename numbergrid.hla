@@ -1,0 +1,178 @@
+// File name: numbergrid.hla
+// 10-6-2024
+// Creating a grid with an input number following a pattern.
+// Input: One integer input.
+// Output: Five colums of five rows of integers following a pattern.
+
+program numbergrid;
+#include ("stdlib.hhf");
+static
+    user_input_number : int32 := 0; //The number to create a grid.
+    next_number : int32 := 0; //Declaring an integer number to iterate and contain the next number to be printed
+
+    // A bunch of variables to perform addition
+    //I know super efficent
+    add1 : int32 := 1;
+    add2 : int32 := 2;    
+    add3 : int32 := 3;    
+    add4 : int32 := 4;    
+    add5 : int32 := 5;    
+    add6 : int32 := 6;
+    add7 : int32 := 7;    
+    add8 : int32 := 8;    
+    add9 : int32 := 9;    
+    add10 : int32 := 10;    
+    add11 : int32 := 11;    
+    add12 : int32 := 12;    
+    add13 : int32 := 13;    
+    add14 : int32 := 14;    
+    add15 : int32 := 15;    
+    add16 : int32 := 16;
+
+
+begin numbergrid;
+
+    //Takes input and sets user_input_value (UIV) as input value.
+    stdout.put("Please enter a number:", nl);
+    stdin.get( user_input_number);
+    
+    //Within the program there are five rows each following the same pattern, excluding the final row of course. 
+
+    //Row 1
+    //Number 1 & 2
+    mov(user_input_number,EBX);//The value within UIV is moved to the EBX Register 
+    mov(add1,ECX);//The Value of add n (in this case its 1) is moved to the ECX Register
+    add(EBX,ECX);//The value of EBX (UIV) is added to the value of ECX (Add n aka 1) and the sum is stored in ECX
+    mov(ECX,next_number);//The sum, from ECX is assigned to the variable next_number.
+    stdout.put(user_input_number," ",next_number," ");//In this iteration both the UIV & sum are output in the same function
+
+    //This repeats through the whole program, maybe in a galaxy far away there is tech advanced enough to do away with...
+    //this house of mirrors. For now this is the best I can do lol. 
+
+    //Number 3
+    mov(user_input_number,EBX);
+    mov(add2,ECX);
+    add(EBX,ECX);
+    mov(ECX,next_number);
+    stdout.put(next_number," ");
+
+    //Number 4
+    mov(user_input_number,EBX);
+    mov(add3,ECX);
+    add(EBX,ECX);
+    mov(ECX,next_number);
+    stdout.put(next_number," ");
+
+    //Number 5
+    mov(user_input_number,EBX);
+    mov(add4,ECX);
+    add(EBX,ECX);
+    mov(ECX,next_number);
+    stdout.put(next_number,nl);
+
+    //Row 2
+    //Original Number
+    stdout.put(user_input_number," ");
+
+    //Number 6
+    mov(user_input_number,EBX);
+    mov(add5,ECX);
+    add(EBX,ECX);
+    mov(ECX,next_number);
+    stdout.put(next_number," ");
+
+    //Number 7
+    mov(user_input_number,EBX);
+    mov(add6,ECX);
+    add(EBX,ECX);
+    mov(ECX,next_number);
+    stdout.put(next_number," ");
+
+    //Number 8
+    mov(user_input_number,EBX);
+    mov(add7,ECX);
+    add(EBX,ECX);
+    mov(ECX,next_number);
+    stdout.put(next_number," ");
+
+    //Number 9
+    mov(user_input_number,EBX);
+    mov(add8,ECX);
+    add(EBX,ECX);
+    mov(ECX,next_number);
+    stdout.put(next_number," ", nl);
+
+    //Row3
+    //Original Number
+    stdout.put(user_input_number," ");
+
+    //Number 10
+    mov(user_input_number,EBX);
+    mov(add9,ECX);
+    add(EBX,ECX);
+    mov(ECX,next_number);
+    stdout.put(next_number," ");
+
+    //Number 11
+    mov(user_input_number,EBX);
+    mov(add10,ECX);
+    add(EBX,ECX);
+    mov(ECX,next_number);
+    stdout.put(next_number," ");
+
+    //Number 12
+    mov(user_input_number,EBX);
+    mov(add11,ECX);
+    add(EBX,ECX);
+    mov(ECX,next_number);
+    stdout.put(next_number," ");
+
+    //Number 11
+    mov(user_input_number,EBX);
+    mov(add12,ECX);
+    add(EBX,ECX);
+    mov(ECX,next_number);
+    stdout.put(next_number," ", nl);
+
+    //Row4
+    //Original Number
+    stdout.put(user_input_number," ");
+
+    //Number 12
+    mov(user_input_number,EBX);
+    mov(add13,ECX);
+    add(EBX,ECX);
+    mov(ECX,next_number);
+    stdout.put(next_number," ");
+
+    //Number 13
+    mov(user_input_number,EBX);
+    mov(add14,ECX);
+    add(EBX,ECX);
+    mov(ECX,next_number);
+    stdout.put(next_number," ");
+
+    //Number 14
+    mov(user_input_number,EBX);
+    mov(add15,ECX);
+    add(EBX,ECX);
+    mov(ECX,next_number);
+    stdout.put(next_number," ");
+
+    //Number 15
+    mov(user_input_number,EBX);
+    mov(add16,ECX);
+    add(EBX,ECX);
+    mov(ECX,next_number);
+    stdout.put(next_number," ", nl);
+
+    //Row5
+    //Repeatedly prints out input number to fill out Row5
+    stdout.put(user_input_number," ");
+    stdout.put(user_input_number," ");
+    stdout.put(user_input_number," ");
+    stdout.put(user_input_number," ");
+    stdout.put(user_input_number," ");
+
+end numbergrid;
+
