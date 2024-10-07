@@ -1,0 +1,20 @@
+// File name: birthmonth.hla
+// Emanuel Cruz
+// 1731 
+// 10-6-2024
+// Spelling out the first three letters of my birthmonth
+// No Input 
+// Four Print statements that spell out FEB
+program birthmonth;
+#include ("stdlib.hhf");
+    
+begin birthmonth;
+
+    stdout.put("FFFFF EEEEE BBBB ", nl);
+    stdout.put("F     E     B   B", nl);
+    stdout.put("FFFFF EEEEE BBBB ", nl);
+    stdout.put("F     E     B   B", nl);
+    stdout.put("F     EEEEE BBBB ", nl);
+
+end birthmonth;
+
