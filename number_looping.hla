@@ -1,0 +1,58 @@
+program number_looping;
+#include ("stdlib.hhf");
+
+begin number_looping;
+    stdout.put("Please enter a number: ");
+    stdin.get(BH);
+
+    cmp(BH,10);
+    jge Alternate_Program;
+
+    mov(0,DH);  //Primary Loop Constant  
+    mov(1,DL);  //Second Loop Statement Constant
+    mov(1,CH);  //Counter for numbers that will be printed
+    mov(1,CL);  //Counter for Second loop termination
+    mov(BH,DL); //Sets DL which is our Second Loop Constant
+    //THIS WORKS
+    Second_For_Loop_Termination_Test:
+    cmp(CL,DL);
+    jg Terminate_Loop_Two;
+    stdout.puti8(CH);
+    inc(CL);
+    jmp Second_For_Loop_Termination_Test;    
+    Terminate_Loop_Two:
+        inc(CH);  //Increments CH since it keeps track on the number we are on
+        inc(DH);  //Increments DH, part of the argument that is checked for. 
+        mov(DH,CL);
+        inc(CL);
+        cmp(BH,DH);
+    jg Second_For_Loop_Termination_Test;
+    jmp End_Of_Program;
+
+
+    Alternate_Program:
+    
+    mov(0,DH);  //Primary Loop Constant  
+    mov(1,DL);  //Second Loop Statement Constant
+    mov(1,CH);  //Counter for numbers that will be printed
+    mov(7,CL);  //Counter for Second loop termination
+    mov(BH,DL); //Sets DL which is our Second Loop Constant
+
+    S_F_L_T_T:
+    cmp(CL,DL);
+    jg T_L_T;
+    stdout.puti8(CH);
+    inc(CL);
+    jmp S_F_L_T_T;    
+    T_L_T:
+        inc(CH);  //Increments CH since it keeps track on the number we are on
+        inc(DH);  //Increments DH, part of the argument that is checked for. 
+        mov(6,CL);
+        add(DH,CL);
+        inc(CL);
+        cmp(BH,DH);
+    jg S_F_L_T_T;
+    jmp End_Of_Program;
+
+    End_Of_Program:
+end number_looping;

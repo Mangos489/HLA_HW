@@ -1,0 +1,92 @@
+// File name: binary_output.hla
+// Emanuel Cruz
+// 1731 
+// 10-13-2024
+// Binary format of input Decimal Value
+// A decimal value / any whole int number 
+//Perform division by shifting a binary number left by 1
+//Read Carry int and move to a register
+//Read register out to terminal
+//Repeat PD procedure x3
+//Print _ or any needed characters
+//Repeat PD procedure x4
+
+program binary_output;
+#include( "stdlib.hhf" );
+
+static
+User_Input : int16 := 0; // Data Value to store Input Decimal Value
+Final_output: int8 := 0; // Data Value to store the Binary Output
+
+begin binary_output;
+stdout.put( "Enter a decimal value to convert to binary: " );
+stdin.get( User_Input );
+
+stdout.put(User_Input, " is ");
+
+//Take input into register BX
+mov( User_Input, BX );
+//Shift by N to get desiered Binary value
+shr( 8, BX );
+//Take EFLAGS register into register ah
+lahf();
+// mask out all bits in AH but bit position zero
+and( %0000_0001, AH );
+//Transfer value from AH to Final_output.
+mov( AH, Final_output );
+stdout.put(Final_output);
+
+mov( User_Input, BX );
+shr( 7, BX );
+lahf();
+and( %0000_0001, AH );
+mov( AH, Final_output );
+stdout.put(Final_output);
+
+
+mov( User_Input, BX );
+shr( 6, BX );
+lahf();
+and( %0000_0001, AH );
+mov( AH, Final_output );
+stdout.put(Final_output);
+
+
+mov( User_Input, BX );
+shr( 5, BX );
+lahf();
+and( %0000_0001, AH );
+mov( AH, Final_output );
+stdout.put(Final_output);
+
+stdout.put("_");
+
+mov( User_Input, BX );
+shr( 4, BX );
+lahf();
+and( %0000_0001, AH );
+mov( AH, Final_output );
+stdout.put(Final_output);
+
+mov( User_Input, BX );
+shr( 3, BX );
+lahf();
+and( %0000_0001, AH );
+mov( AH, Final_output );
+stdout.put(Final_output);
+
+mov( User_Input, BX );
+shr( 2, BX );
+lahf();
+and( %0000_0001, AH );
+mov( AH, Final_output );
+stdout.put(Final_output);
+
+mov( User_Input, BX );
+shr( 1, BX );
+lahf();
+and( %0000_0001, AH );
+mov( AH, Final_output );
+stdout.put(Final_output);
+
+end binary_output;

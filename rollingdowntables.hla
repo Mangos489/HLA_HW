@@ -1,0 +1,142 @@
+// File name: binary_output.hla
+// Emanuel Cruz
+// 1731 
+// 10-13-2024
+// A rolling table that showcases bit control.
+// Takes an integers as input
+//Uses 3 arrays of size 4 to print out each row of the table.
+
+program RollingDownTables;
+
+#include("stdlib.hhf");
+
+static
+initial_number: int8;
+first_row: int8[4];
+row_multiply: int8[4];
+row_divide: int8[4];
+
+begin RollingDownTables;
+    stdout.put("Gimme a starting value: ", nl );
+    stdin.get(initial_number);
+    stdout.put("Rolling Down Table", nl );
+    
+    //Takes Input and then performs +1 to before stuffing the sum into its respective index within array first_row.
+    mov(initial_number, BH);
+    add(0,BH);
+    mov(BH,first_row[0]);
+    stdout.put(first_row[0], ": ");
+
+    mov(initial_number, BH);
+    add(1,BH);
+    mov(BH,first_row[1]);
+    stdout.put(first_row[1], ": ");
+
+    mov(initial_number, BH);
+    add(2,BH);
+    mov(BH,first_row[2]);
+    stdout.put(first_row[2], ": ");
+    
+    mov(initial_number, BH);
+    add(3,BH);
+    mov(BH,first_row[3]);
+    stdout.put(first_row[3], ": ", nl);
+
+    //Multiply by 2
+    //Uses rotate left to multiply the original number to then store in respective index of array, row_multiply.
+
+    mov(first_row[0], BH);
+    rol(1,BH);
+    mov(BH,row_multiply[0]);
+    stdout.put(row_multiply[0], " ");
+
+    mov(first_row[1], BH);
+    rol(1,BH);
+    mov(BH,row_multiply[1]);
+    stdout.put(row_multiply[1], " ");
+
+    mov(first_row[2], BH);
+    rol(1,BH);
+    mov(BH,row_multiply[2]);
+    stdout.put(row_multiply[2], " ");
+
+    mov(first_row[3], BH);
+    rol(1,BH);
+    mov(BH,row_multiply[3]);
+    stdout.put(row_multiply[3], " ", nl);
+
+    //Divide by 2 using Rotate Right
+    //Uses rotate right to divide the original number & then store in respective index of array, row_divide.
+
+    mov(first_row[0], BH);
+    ror(1,BH);
+    mov(BH,row_divide[0]);
+    stdout.put(row_divide[0], " ");
+
+    mov(first_row[1], BH);
+    ror(1,BH);
+    mov(BH,row_divide[1]);
+    and(%0111_1111,row_divide[1]);  //Masking out the Hight Order bit to avoid bit signature and negative result.
+    stdout.put(row_divide[1], " ");
+
+    mov(first_row[2], BH);
+    ror(1,BH);
+    mov(BH,row_divide[2]);
+    stdout.put(row_divide[2], " ");
+
+    mov(first_row[3], BH);
+    ror(1,BH);
+    mov(BH,row_divide[3]);
+    and(%0111_1111,row_divide[3]);
+    stdout.put(row_divide[3], " ", nl);
+
+    //Multiply by 2
+    //Repeat same process as row 2
+
+    mov(row_multiply[0], BH);
+    rol(1,BH);
+    mov(BH,row_multiply[0]);
+    stdout.put(row_multiply[0], " ");
+
+    mov(row_multiply[1], BH);
+    rol(1,BH);
+    mov(BH,row_multiply[1]);
+    stdout.put(row_multiply[1], " ");
+
+    mov(row_multiply[2], BH);
+    rol(1,BH);
+    mov(BH,row_multiply[2]);
+    stdout.put(row_multiply[2], " ");
+
+    mov(row_multiply[3], BH);
+    rol(1,BH);
+    mov(BH,row_multiply[3]);
+    stdout.put(row_multiply[3], " ", nl);
+
+    //Divide by 2
+    //Repeat same process as row 3
+    mov(row_divide[0], BH);
+    ror(1,Bh);
+    mov(BH,row_divide[0]);
+    stdout.put(row_divide[0], " ");
+
+    mov(row_divide[1], BH);
+    ror(1,Bh);
+    mov(BH,row_divide[1]);
+    stdout.put(row_divide[1], " ");
+
+    mov(row_divide[2], BH);
+    ror(1,Bh);
+    mov(BH,row_divide[2]);
+    and(%0111_1111,row_divide[2]);  //Masking out the Hight Order bit to avoid bit signature and negative result.
+    stdout.put(row_divide[2], " ");
+
+    mov(row_divide[3], BH);
+    ror(1,Bh);
+    mov(BH,row_divide[3]);
+    and(%0111_1111,row_divide[3]);
+    stdout.put(row_divide[3], " ");
+
+
+
+end RollingDownTables;

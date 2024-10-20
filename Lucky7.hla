@@ -1,0 +1,95 @@
+program Lucky7;
+#include ("stdlib.hhf");
+static
+    comparison_seven : int8 := 7;
+    comparison_zero: int8 := 0;
+    comparison_one: int8 := 1;
+
+    //AVAILABLE REGISTERS
+    //BH BL  
+
+begin Lucky7;
+    
+    //Initializing register: Tracks # of games played
+    mov(0,CL);
+    //Initializing register: Tracks # of + inputs
+    mov(0,BH);
+    //Initializing register: Track # of - inputs
+    mov(0,BL);
+    stdout.put("Lucky Seven Game!", nl);
+
+    primary_program:
+        //Initializes iteration value for program  
+        inc(CL);
+        mov(2, DL);
+
+    nested_program:
+
+        stdout.put("Feed Me: ");
+        //Recieves User Input
+        stdin.geti8();
+        mov(AL, DH);
+        //Compares input to see if equal to 7
+        cmp(comparison_seven,DH);
+        je boolean_int;
+        //compares input to check if input is positive
+        cmp(comparison_zero,DH);
+        jl incpostivie;
+        //If input is negative itll force jump after all checks
+        jmp incnegative;
+    //Jumping point to continue with program
+    program_return:
+        //Decrementing our nested loop counter
+        dec(DL);
+        //Incrementing counter that checks for rounds played 
+        //compares the nested loop tracker & exits to check if 7 was entered.
+        cmp(comparison_zero,DL);
+        jg boolean_object;
+        jmp nested_program;
+
+    //Program to declare presence of 7
+    boolean_int:
+        //Initializing register that will handle program Boolean Statement
+        mov(1,CH);
+        add(1,BH);
+    jmp program_return;
+
+    //Program to check if 7 is present or absent
+    boolean_object:
+        cmp(comparison_one, CH);
+    je present;
+    jmp absent;
+
+    //Resets Boolean Int to false continues with loop
+    present:
+        stdout.put("Found Seven!", nl);
+        mov(0,CH);    
+    jmp primary_program;
+
+    //Terminates Game due to absense of 7.
+    absent:
+        mov(0,CH);
+    jmp program_termination;
+
+    //Program to track number of positive int
+    incpostivie:
+        add(1,BH);
+    jmp program_return;
+
+    //program to track number of negative int
+    incnegative:
+       add(1,BL);
+    jmp program_return;
+
+    //program termination where we print out registers for 
+    program_termination:
+    stdout.put("Game Over!", nl);
+    stdout.put("You Fed Me: ");
+    stdout.puti8(BH);
+    stdout.put(" positive quantities and ");
+    stdout.puti8(BL);
+    stdout.put(" negative quantities", nl);
+    stdout.put("Your game lasted ");
+    stdout.puti8(Cl);
+    stdout.put(" rounds of play.",nl);
+end Lucky7;
