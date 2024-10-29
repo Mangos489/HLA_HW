@@ -1,0 +1,190 @@
+program tutition;
+#include( "stdlib.hhf" );
+static
+    total_units: int8 := 0;
+    semester: int8 := 0;
+    residency: int8:= 0;
+    parking:int8:=0;
+
+    math_units:int16:= 0;
+    resident_units:int16 := 0;
+
+    tutition_cost: int16:= 46;
+    parking_decal:int16:= 25;
+
+    comparison_zero:int8:=0;
+
+    comparison_one:int8:=1;
+    comparison_two:int8:=2;
+    comparison_three:int8:=3;
+
+begin tutition;
+    stdout.put( "Feed me(2 hex digits): " );
+    stdin.get( BX );
+
+    mov(0,DX);
+    cmp(DX,BX);
+    je error;
+    jmp pass;
+
+    error:
+    stdout.put("Units enrolled cannot be zero!");
+    jmp terminate;
+
+    pass:
+    //ALL IN CHARGE OF COMPUTING TOTAL UNITS
+        mov(BX,CX);
+        shr( 1, CX );
+        //Take EFLAGS register into register ah
+        lahf();
+        and( %0000_0001, AH );
+        //Transfer value from AH to Final_output.
+        mov( AH, DL );
+        add(DL,total_units);
+
+        mov(BX,CX);
+        shr( 2, CX );
+        //Take EFLAGS register into register ah
+        lahf();
+        and( %0000_0001, AH );
+        //Transfer value from AH to Final_output.
+        mov( AH, DL );
+        shl(1,DL);
+        add(DL,total_units);
+
+        mov(BX,CX);
+        shr( 3, CX );
+        //Take EFLAGS register into register ah
+        lahf();
+        and( %0000_0001, AH );
+        //Transfer value from AH to Final_output.
+        mov( AH, DL );
+        shl(2,DL);
+        add(DL,total_units);
+      
+        mov(BX,CX);
+        shr( 4, CX );
+        lahf();
+        and( %0000_0001, AH );
+        mov( AH, DL );
+        shl(3,DL);
+        add(DL,total_units);
+
+        mov(total_units,AL);
+        movzx(AL,AX);
+        mov(AX,math_units);
+
+    //IN CHARGE OF SETTING SEMESTER
+        mov(BX,CX);
+        shr( 5, CX );
+        lahf();
+        and( %0000_0001, AH );
+        mov( AH, DL );
+        add(DL,semester);
+
+        mov(BX,CX);
+        shr( 6, CX );
+        lahf();
+        and( %0000_0001, AH );
+        mov( AH, DL );
+        shl(1,DL);
+        add(DL,semester);
+        
+
+    //IN CHARGE OF FINDING OUT IF CA RESIDENT
+        mov(BX,CX);
+        shr( 7, CX );
+        lahf();
+        and( %0000_0001, AH );
+        mov( AH, DL );
+        add(DL,residency);
+        mov(residency,AL);
+        movzx(AL,AX);
+        mov(AX,resident_units);
+
+
+    //IN CHARGE OF PARKING DECAL
+        mov(BX,CX);
+        shr( 8, CX );
+        lahf();
+        and( %0000_0001, AH );
+        mov( AH, DL );
+        add(DL,parking);
+    //MAIN PROGRAM
+    stdout.put(math_units," Unit(s)");
+    stdout.put(nl);
+    mov(semester,DL);
+
+    cmp(comparison_three,DL);
+    je summer;
+    cmp(comparison_two,DL);
+    je spring;
+    cmp(comparison_one,DL);
+    je winter;
+    jmp fall;
+    summer:
+    stdout.put("Summer");
+    jmp main_program;
+    
+    spring:
+    stdout.put("Spring");
+    mov(50,parking_decal);
+    jmp main_program;
+
+    fall:
+    stdout.put("Fall");
+    mov(50,parking_decal);
+    jmp main_program;
+
+    winter:
+    stdout.put("Winter");
+    jmp main_program;
+
+    //CHECKS IF STUDENT IS CA RESIDENT
+    main_program:
+
+    stdout.put(nl);
+
+    mov(residency,DL);
+    cmp(comparison_zero,DL);
+    je resident_false;
+    jmp resident_true;
+
+    resident_false:
+    stdout.put("Non-CA Resident");
+    mov(374,tutition_cost);
+    jmp main_program2;
+    resident_true:
+    stdout.put("CA Resident");
+    jmp main_program2;
+
+    main_program2:
+    stdout.put(nl);
+    //KEEP IN MIND YOU HAVE THE FOLLOWING VARIABLE
+    mov(parking,DL);
+    cmp(comparison_zero,DL);
+    je parking_false;
+    jmp parking_true;
+
+    parking_false:
+    stdout.put("No Parking");
+    mov(0,parking_decal);
+    jmp main_program3;
+    parking_true:
+    stdout.put("Parking");
+    jmp main_program3;
+
+    main_program3:
+    stdout.put(nl);
+    //Return Total
+    mov(math_units,ax);
+    imul(tutition_cost);
+    mov(ax,tutition_cost);
+    mov(parking_decal,Dx);
+    mov(tutition_cost,BX);
+    add(DX,BX);
+    mov(BX,tutition_cost);
+    stdout.put("Tuition: $",tutition_cost);
+
+    terminate:
+end tutition;
