@@ -1,0 +1,68 @@
+program bodymassindex;
+#include("stdlib.hhf");
+static
+    user_input_weight: real32;
+    user_input_height: real32;
+    final_result: real32;
+
+procedure bmi( height: real32; weight : real32 ); @nodisplay; @noframe;
+static 
+    returnAddress: dword;
+    weight_divided_height: real32;
+    factor: real32 := 703.0;
+    bmi_result: real32;
+begin bmi;
+    pop(returnAddress);
+        pop(weight);
+        pop(height);
+    push(returnAddress);
+
+    //YOUR CODE GOES HERE 
+
+    finit();
+    //Height ^ 2 : (inches * inches)
+    fld(height);
+    fld(height);
+    fmul();
+    fstp(height);
+
+    fld(weight);
+    fld(height);
+    fdiv();
+    fstp(weight_divided_height);
+
+    fld(weight_divided_height);
+    fld(factor);
+    fmul();
+    fstp(bmi_result);
+    
+
+    pop(returnAddress);
+        push(bmi_result);
+    push(returnAddress);
+
+    ret();
+end bmi;
+
+begin bodymassindex;
+
+    stdout.put("Lemme calculate your BMI!", nl);
+    stdout.put("Gimme height: ");
+    stdin.get(user_input_height);
+
+    stdout.put("Gimme weight: ");
+    stdin.get(user_input_weight);
+
+    push(user_input_height);
+    push(user_input_weight);
+
+    call bmi;
+    pop(final_result);
+    //ABOVE CODE WORKS FINE DONT TOUCH
+    //CONTINUE CODING FROM HERE 
+
+
+    stdout.put("BMI = ");
+    stdout.putr32(final_result,4,1);
+end bodymassindex;
+

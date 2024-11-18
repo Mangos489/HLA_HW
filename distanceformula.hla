@@ -1,0 +1,115 @@
+program distanceformula;
+#include( "stdlib.hhf" );
+static
+    user_input_x_one: real32;
+    user_input_x_two: real32;
+    user_input_y_one: real32;
+    user_input_y_two: real32;
+
+    old_cw: word;
+    new_cw: word;
+
+    final_result: real32;
+    int_result: int32;
+    conversion: real32 := 100000.0;
+
+procedure distance( x1: real32; x2 : real32; y1 : real32;  y2 : real32 ); @nodisplay; @noframe;
+static
+    returnAddress: dword;
+    float_total_sum : real32;
+    x_sum: real32;
+    y_sum: real32;
+begin distance;
+    pop(returnAddress);
+        pop(y2);
+        pop(y1);
+        pop(x2);
+        pop(x1);
+    push(returnAddress);
+
+    stdout.put("X1",x1,nl);
+    stdout.put("X2",x2,nl);
+    stdout.put("Y2",y1,nl);
+    stdout.put("Y2",y2,nl);
+
+    //YOUR CODE GOES HERE 
+
+    finit();
+
+        //Obtain X sum
+        fld(x1);
+        fld(x2);
+        fsubp();
+        fstp(x_sum);
+        //Obtain y sum
+        fld(y1);
+        fld(y2);
+        fsubp();
+        fstp(y_sum);
+        //X^2
+        fld(x_sum);
+        fld(x_sum);
+        fmulp();
+        //Y^2
+        fld(y_sum);
+        fld(y_sum);
+        fmulp();
+        //Y^2 + X^2
+        faddp();
+        fsqrt();
+        fstp(float_total_sum);
+
+        pop(returnAddress);
+            push(float_total_sum);
+        push(returnAddress);
+
+    ret();
+end distance;
+
+begin distanceformula;
+    
+    stdout.put("Gimme a value for x1: ");
+    stdin.get(user_input_x_one);
+    stdout.put("Gimme a value for x2: ");
+    stdin.get(user_input_x_two);
+    stdout.put("Gimme a value for y1: ");
+    stdin.get(user_input_y_one);
+    stdout.put("Gimme a value for y2: ");
+    stdin.get(user_input_y_two);
+  
+    push(user_input_x_one);
+    push(user_input_x_two);
+    push(user_input_y_one);
+    push(user_input_y_two);
+call distance;
+
+    pop(final_result);
+
+    finit();
+    fld(final_result);
+    fld(conversion);
+    fmul();
+    fstp(final_result);
+
+    fstcw( old_cw );
+
+    mov( old_cw, AX );
+    and( %1111_0011_1111_1111, AX );   
+    or( %0000_1100_0000_0000,AX );     
+    mov( AX, new_cw );
+    fldcw( new_cw ); 
+ 
+    fld( final_result );
+    fistp( int_result ); 
+ 
+    fldcw( old_cw );
+
+    fild( int_result );
+    fld( conversion );
+    fdiv();
+    fstp( final_result );
+
+    stdout.put("The distance between points A and B is: ");
+    stdout.putr32(final_result,7,5);
+
+end distanceformula;

@@ -1,0 +1,101 @@
+program seven_detector;
+#include( "stdlib.hhf" );
+static
+  user_input_x : int16 := 0;
+  user_input_y : int16 := 0;
+  temp_ex: int16;
+
+procedure endsInSeven( x: int16; y: int16 ); @nodisplay; @noframe; 
+static
+    returnAddress : dword;
+begin endsInSeven;
+
+	pop( returnAddress );
+	pop( y );
+    pop( x );
+	push( returnAddress );
+
+    //OUR CODE GOES HERE
+
+    // CHECKING FOR X
+    X_input_check:
+    cmp(x,7);
+        je bool_true;
+        cmp(x,0);
+        jl boolean_false;
+        sub(10,x);
+        jmp X_input_check;
+
+
+    Y_input_check:
+
+        cmp(y,7);
+        je bool_true_two;
+        cmp(y,0);
+        jl boolean_false;
+        sub(10,y);
+        jmp Y_input_check;
+
+
+    bool_true:
+        mov(1,BL);
+    jmp Y_input_check;
+
+    bool_true_two:
+        mov(1, BH);
+    jmp comparison;
+    
+    comparison:
+        cmp(BH,BL);
+        je boolean_true;  
+    jmp boolean_false;
+
+    boolean_false:
+    pop( returnAddress );
+    mov(0,EAX);
+    push(EAX);
+    push( returnAddress );
+    jmp ExitSequence;
+
+    boolean_true:
+    pop( returnAddress );
+    mov(1,EAX);
+    push(EAX);
+    push( returnAddress );
+    jmp ExitSequence;
+
+
+	ExitSequence:
+	ret();
+    end endsInSeven;
+
+
+begin seven_detector;
+
+  stdout.put( "Feed me X: " );
+  stdin.get( user_input_x );
+  stdout.put( "Feed me y: " );
+  stdin.get( user_input_y );
+
+  push( user_input_x );
+  push( user_input_y );	
+  call endsInSeven;
+
+  cmp(AL, 1);
+  je seven_ending;
+  jmp non_seven_end;
+
+
+  seven_ending:
+  		stdout.put("Both ending in seven.  AL = 1",nl);
+		jmp EndProgram;
+
+  non_seven_end:
+  		stdout.put("Not ending in seven.  AL = 0",nl);
+		jmp EndProgram;
+
+  stdout.newln();
+
+  EndProgram:
+
+end seven_detector;

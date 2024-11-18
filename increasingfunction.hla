@@ -1,0 +1,123 @@
+program increasingfunction;
+#include ("stdlib.hhf");
+static
+    user_input_w: int8 := 0;
+    user_input_x: int8 := 0;
+    user_input_y: int8 := 0;
+    user_input_z: int8 := 0;
+
+
+procedure increasing( w: int8; x : int8; y : int8; z : int8 ); @nodisplay; @noframe;
+
+static
+    IReturnAddress : dword;
+    iRegisterValue: dword;
+    temp:int16;
+
+    begin increasing;
+
+        pop( IReturnAddress );
+
+        pop( temp );
+        mov(temp,BX);
+        mov(BL,z);
+
+        pop( temp );
+        mov(temp,BX);
+        mov(BL,y);
+
+        pop( temp );
+        mov(temp,BX);
+        mov(BL,x);
+
+        pop( temp );
+        mov(temp,BX);
+        mov(BL,w);
+
+        push(IReturnAddress);
+
+        //INPUT CODE
+        //COMPARES W & X THROUGH SUBTRACTION, STORES RESULT IN DH
+        //IF RESULT IS x>0 THEN INCREASING == TRUE
+        //ELSE FALSE 
+        //REPEAT 3x
+        mov(w,CH);
+        mov(x,DH);
+        sub(CH,DH);
+        cmp(DH,0);
+        jl bool_false;
+
+        mov(x,CH);
+        mov(y,DH);
+        sub(CH,DH);
+        jl bool_false;
+
+        mov(y,CH);
+        mov(z,DH);
+        sub(CH,DH);
+        jl bool_false;
+        jmp bool_true;
+
+        bool_true:
+        pop( IReturnAddress );
+        mov(1,EAX);
+        push(EAX);
+        push( IReturnAddress );
+        jmp termination;
+
+        bool_false:
+        pop( IReturnAddress );
+        mov(0,EAX);
+        push(EAX);
+        push( IReturnAddress );
+        jmp termination;
+
+        termination:
+        //END OF INPUT CODE 
+        ret();
+    end increasing;
+
+begin increasingfunction;
+    
+    stdout.put("Feed Me W:");
+    stdin.get(user_input_w);
+
+    stdout.put("Feed Me X:");
+    stdin.get(user_input_x);
+
+    stdout.put("Feed Me Y:");
+    stdin.get(user_input_y);
+
+    stdout.put("Feed Me Z:");
+    stdin.get(user_input_z);
+
+    mov( 0, BX );
+    mov( user_input_w, BL );
+    push( BX );
+    mov( 0, BX );
+    mov( user_input_x, BL );
+    push( BX );
+    mov( 0, BX );
+    mov( user_input_y, BL );
+    push( BX );
+    mov( 0, BX );
+    mov( user_input_z, BL );
+    push( BX );
+
+    call increasing;
+    pop(EAX);
+    
+    cmp(AL,0);
+    je decreasing_array;
+    jmp increasing_array;
+
+    decreasing_array:
+    stdout.put("Not Increasing. AL = 0");
+    jmp terminate;
+
+    increasing_array:
+    stdout.put("Increasing. AL = 1");
+    jmp terminate;
+
+    terminate:
+end increasingfunction;
